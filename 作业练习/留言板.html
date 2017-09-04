@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<style type="text/css">
+			ul,li,img{
+				margin: 0;
+				padding: 0;
+			}
+			ul,li{
+				list-style: none;
+			}
+			img{
+				display: block;
+				border: 0;
+			}
+			i,em{
+				font-style: normal;
+			}
+			.box{
+				width: 362px;
+				height: 388px;
+				padding: 117px 168px 0px 169px;
+				background:-webkit-radial-gradient(circle,#aeacde,#9b93d4,#656bb5,#524c94,#444384,#3b3a75);
+			}
+			.cont{
+				width: 362px;
+				height: 170px;
+			}
+			.text{
+				resize: none;
+				overflow: auto;
+				width: 320px;
+				height: 83px;
+				padding: 22px 18px;
+				border: 3px solid #3e327b;
+				border-radius: 10px;
+				outline: none;
+				font-size: 16px;
+				font-weight: bolder;
+			}
+			.cont a{
+				/*display: block;*/
+				text-decoration: none;
+				float: right;
+				margin-top: 10px;
+				height: 26px;
+				width: 96px;
+				border: 3px solid #fff;
+				background: #00a6cc;
+				color: #fff;
+				text-align: center;
+				line-height: 26px;
+				border-radius: 10px;
+			}
+			.liuy{
+				width: 362px;
+				height: 195px;
+				margin-top: 17px;
+			}
+			.liuy li{
+				height: 41px;
+				overflow: hidden;
+				margin-bottom: 10px;
+			}
+			li img{
+				height: 41px;
+				width: 41px;
+				float: left;
+				
+			}
+			.mess{
+				float: right;
+				width: 316px;
+				height: 41px;
+				position: relative;
+			}
+			.mess i{
+				display: block;
+				width: 5px;
+				height: 8px;
+				background: url(img/jt.png);
+				position: absolute;
+				top: 17px;
+				left: 0;
+			}
+			span{
+				float: right;
+				width: 301px;
+				padding-left: 10px;
+				height: 41px;
+				background: #494587;
+				/*text-align: center;*/
+				line-height: 40px;
+				color: #fff;
+				font-size: 14px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="box">
+			<div class="cont">
+				<textarea name="" rows="" cols="" class="text"></textarea>
+				<a href="#javascript:;" class="tj">提交</a>
+			</div>
+				<ul class="liuy">
+					<!--<li>
+						<img src="img/blue.png"/>
+						<div class="mess">
+							<i></i><span>你好</span>
+						</div>
+					</li>-->
+				</ul>
+		</div>
+		<script type="text/javascript">
+			const text=document.querySelector('.text');
+			const tj=document.querySelector('.tj');
+			const liuy=document.querySelector('.liuy')
+			const lis=document.querySelector('li');
+			const arr=['img/blue.png','img/green.png']
+			let onoff=true
+			tj.onclick=()=>{
+				let val=text.value;
+				if(val){
+					let li=document.createElement('li')
+					if(onoff){				
+						li.innerHTML=`<img src="img/blue.png"/>
+										<div class="mess">
+											<i></i>
+											<span>${val}</span>
+										</div>`
+							onoff=false;
+						console.log(onoff)
+					}else{
+						li.innerHTML=`<img src="img/green.png"/>
+										<div class="mess">
+											<i></i>
+											<span>${val}</span>
+										</div>`
+						onoff=true;
+					}
+					liuy.insertBefore(li,liuy.firstElementChild)
+					let zli=liuy.querySelectorAll('li')
+					text.value=''
+					if(zli.length>3){
+						tj.onclick=null;
+						alert('最多只能输入4条信息')
+					}
+				}
+			}
+			
+			
+		</script>
+	</body>
+</html>

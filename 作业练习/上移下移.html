@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<style type="text/css">
+			body,i,ul,li{
+				margin: 0;
+				padding: 0;
+			}
+			ul,li{
+				list-style: none;
+			}
+			a{
+				text-decoration: none;
+				color: #fe8595;
+			}
+			#box1{
+				margin: 0px auto;
+				width: 403px;
+				height: 311px;
+				padding: 36px 59px 28px 32px;
+				background: #ff8193;
+			}
+			.list1{
+				width: 403px;
+				height: 311px;
+				position: relative;
+			}
+			.list1 li{
+				width: 367px;
+				height: 28px;
+				padding: 12px 11px 13px 25px;
+				background: #fff;
+				margin-bottom:10px ;
+				border-radius: 4px;
+				position: absolute;
+				
+			}
+			.cont{
+				height: 20px;
+				width: 134px;
+				margin-top: 5px;
+				float: left;
+			}
+			.cont i{
+				height: 20px;
+				width: 4px;
+				background: pink;
+				float: left;
+				margin-right: 11px;
+			}
+			.cont span{
+				float: left;
+				font-size: 16px;
+				height: 20px;
+				line-height: 20px;
+			}
+			.move{
+				width: 114px;
+				height: 28px;
+				float: right;
+			}
+			.move a{
+				float: left;
+				width: 48px;
+				height: 26px;
+				border: 2px solid #FF8193;
+				font-size: 16px;
+				text-align: center;
+				line-height: 26px;
+				border-radius: 4px;
+				transform: 1s;
+			}
+			.move a:nth-of-type(1){
+				margin-right: 10px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="box1">
+			<ul class='list1'>
+				<li>
+					<div class="cont">
+						<i></i>
+						<span>内容一</span>
+					</div>
+					<div class="move">
+						<a href="javascript:;">上移</a>
+						<a href="javascript:;">下移</a>
+					</div>
+				</li>
+				<li>
+					<div class="cont">
+						<i></i>
+						<span>内容二</span>
+					</div>
+					<div class="move">
+						<a href="javascript:;">上移</a>
+						<a href="javascript:;">下移</a>
+					</div>
+				</li>
+				<li>
+					<div class="cont">
+						<i></i>
+						<span>内容三</span>
+					</div>
+					<div class="move">
+						<a href="javascript:;">上移</a>
+						<a href="javascript:;">下移</a>
+					</div>
+				</li>
+				<li>
+					<div class="cont">
+						<i></i>
+						<span>内容四</span>
+					</div>
+					<div class="move">
+						<a href="javascript:;">上移</a>
+						<a href="javascript:;">下移</a>
+					</div>
+				</li>
+				<li>
+					<div class="cont">
+						<i></i>
+						<span>内容五</span>
+					</div>
+					<div class="move">
+						<a href="javascript:;">上移</a>
+						<a href="javascript:;">下移</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<script type="text/javascript" src="js/MTween.js"></script>
+		<script type="text/javascript">
+			//ul获取
+			const list1=document.querySelector('.list1');
+			//获取li
+			const lis=list1.querySelectorAll('li');
+				for (let i=0,len=lis.length;i<len;i++) {
+					lis[i].style.top = i*60 + 'px';
+					//上移标签a
+					let prev=lis[i].getElementsByTagName('a')[0]
+					//下移标签a
+					let next=lis[i].getElementsByTagName('a')[1]
+					//获取ul标签
+						const list= lis[i].parentNode;
+					//上移事件
+					prev.onclick=()=>{
+						//上一个兄弟节点
+						let prevEsib=prev.parentNode.parentNode.previousElementSibling
+						//自身节点
+						let _this=prev.parentNode.parentNode
+						if(prevEsib){
+							//先执行函数 让上一个兄弟节点的top值向下60；
+							MTween(prevEsib,60,500,'top','linear',function(){
+								//回调函数执行
+							list.insertBefore(_this,prevEsib);
+						}) 
+						//将自身向上提升top值
+							MTween(_this,-60,500,'top','linear'); 
+						}else{
+							for (var i=0,len=lis.length;i<len;i++) {
+								MTween(lis[i],-60,500,'top','linear',function(){
+									list.insertBefore(_this,prevEsib)
+								})
+							}
+							MTween(_this,240,500,'top','linear');
+						}
+					}
+					//上移鼠标移入事件
+					prev.onmouseover=()=>{
+						prev.style.background='pink';
+					}
+					//上移鼠标移出事件
+					prev.onmouseout=()=>{
+						prev.style.background='';
+					}
+					//下移事件
+					next.onclick=()=>{
+						//下一个兄弟节点
+						let nextEsib=next.parentNode.parentNode.nextElementSibling
+						//自身节点
+						let _this=next.parentNode.parentNode
+						if(nextEsib){
+							MTween(nextEsib,-60,500,'top','linear',function(){
+								list.insertBefore(nextEsib,_this)
+							})
+							MTween(_this,60,500,'top','linear')
+						}else{
+							for (var i=0,len=lis.length;i<len;i++) {
+								MTween(lis[i],60,500,'top','linear')
+							}
+							MTween(_this,-240,500,'top','linear');
+							list1.insertBefore(_this,list1.firstElementChild);
+						}
+					}
+					//上移鼠标移入事件
+					next.onmouseover=()=>{
+						next.style.background='pink';
+					}
+					//上移鼠标移出事件
+					next.onmouseout=()=>{
+						next.style.background='';
+					}
+				}
+		</script>
+	</body>
+</html>
